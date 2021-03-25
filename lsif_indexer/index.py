@@ -58,7 +58,10 @@ class FileIndexer:
         self.document_id = self.emitter.emit_document(*document_args)
 
         with scope_events(self.emitter, 'document', self.document_id):
-            self._index(source)
+            try:
+                self._index(source)
+            except Exception as e:
+                print(f"Indexing {self.filename} failed because: {str(e)}")
 
     def _index(self, source):
         # Do an initial analysis to get a list of names from
